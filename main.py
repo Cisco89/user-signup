@@ -11,6 +11,11 @@ def validate_passwords(value_1, value_2):
 
     return False
 
+def correct_entry(value):
+    if 3 < len(value) and 21 > len(value):
+        return True
+    
+    return False
 
 @app.route("/")
 def index():
@@ -35,7 +40,13 @@ def welcome():
     if not validate_passwords(password, validate_password):
         validate_password_error = 'Passwords must match!'
 
-    if not validate_password_error:
+    if not correct_entry(username):
+        username_error = "Username must consist of 3-20 characters!"
+
+    if not correct_entry(password):
+        password_error = "Password must consist of 3-20 characters!"
+
+    if not validate_password_error and not username_error and not password_error:
         return render_template(
             'welcome.html', 
             title='Welcome', 
